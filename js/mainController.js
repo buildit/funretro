@@ -90,12 +90,17 @@ angular
           setTimeout(function() {
             new EmojiPicker();
           }, 100);
+          $scope.setActiveMessage();
         });
 
         $scope.boardRef = board;
         $scope.messagesRef = messagesRef;
         $scope.userUid = userData.uid;
         $scope.messages = firebaseService.newFirebaseArray(messagesRef);
+
+        $scope.messages.$watch(function() {
+          $scope.setActiveMessage();
+        });
       }
 
       if ($scope.userId !== '') {
@@ -322,8 +327,22 @@ angular
         $scope.import.error = '';
       };
 
+      $scope.setActiveMessage = function() {
+        if($scope.board.activeMessageId &&
+            (!$scope.activeMessage ||
+            $scope.board.activeMessageId !== $scope.activeMessage.$id))
+        {
+          $scope.messages.find(function(message) {
+            if(message.$id === $scope.board.activeMessageId)
+              $scope.activeMessage = message;
+          });
+        }
+      };
+
       $scope.selectMessage = function(message) {
-        $scope.activeMessage = message;
+        $scope.boardRef.update({
+          activeMessageId: message.$id,
+        });
       };
 
       /* globals Clipboard */
