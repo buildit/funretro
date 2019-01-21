@@ -190,7 +190,12 @@ a:not(.disabled) .fa-thumbs-o-up:hover::before {
   content: '\f164';
 }
 
-a:not(.disabled) .fa-thumbs-o-up:hover {
+a:not(.disabled) .fa-thumbs-o-down:hover::before {
+  content: '\f164';
+  transform: scale(-1, 1);
+}
+
+a:not(.disabled) .o-up:hover {
   width: 12.8281px;
 }
 

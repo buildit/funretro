@@ -124,6 +124,10 @@
     resize: none;
     border: none;
   }
+
+  &.active {
+    opacity: 0.5;
+  }
 }
 
 .message .filter .text {

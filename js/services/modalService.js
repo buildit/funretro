@@ -76,6 +76,13 @@ angular
           scope: scope
         });
       },
+      openTimesUp: function(scope) {
+        ngDialog.open({
+          template: 'timesUp',
+          className: 'ngdialog-theme-plain',
+          scope: scope,
+        });
+      },
       closeAll: function() {
         ngDialog.closeAll();
       }

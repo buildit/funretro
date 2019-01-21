@@ -48,6 +48,7 @@ angular
         data: [],
         mapping: []
       };
+      $scope.activeMessage = null;
 
       $scope.droppedEvent = function(dragEl, dropEl) {
         var drag = $('#' + dragEl);
@@ -319,6 +320,10 @@ angular
         $scope.import.data = [];
         $scope.import.mapping = [];
         $scope.import.error = '';
+      };
+
+      $scope.selectMessage = function(message) {
+        $scope.activeMessage = message;
       };
 
       /* globals Clipboard */

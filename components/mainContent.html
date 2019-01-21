@@ -8,6 +8,16 @@
   </select>
   <button class="pull-right new-column" ng-show="board.columns.length < 1000" ng-click="modalService.openAddNewColumn(this)">New column</button>
 </div>
+<span class='container'>
+  <div ng-show="userId !== '' && activeMessage">
+    <h1>{{ activeMessage.text }}</h1>
+    <div>TIMER</div>
+    <p>Votes: {{ activeMessage.votes }}</p>
+    <button class="" ng-click="">Start/STOP</button>
+    <button class="" ng-click="">Completed</button>
+    <button class="" ng-click="">Breakout</button>
+  </div>
+</span>
 <span class="container">
     <span ng-show="boardId !== ''" class="message-list" x-lvl-drop-target="true" x-on-drop="droppedEvent(dragEl, dropEl)" data-column-id="{{type.id}}" ng-class="{'selected': isColumnSelected(type.id)}" ng-repeat="type in board.columns">
         <ul class="column {{utils.columnClass(type.id)}}">
@@ -25,7 +35,7 @@
                 <a class="blue" ng-click="editing=false;">Cancel</a>
               </div>
           </div>
-          <li ng-controller="MessageCtrl" id="{{ message.$id }}" enter-click class="message" ng-class="{'flip': isEditing}" ng-repeat="message in messages | filter: {type: {id: type.id}, text: filterMessage} | orderBy: getSortFields()">
+          <li ng-controller="MessageCtrl" id="{{ message.$id }}" ng-click='selectMessage(message)' enter-click class="message" ng-class="{'flip': isEditing, 'active': message === activeMessage}" ng-repeat="message in messages | filter: {type: {id: type.id}, text: filterMessage} | orderBy: getSortFields()">
             <div messageId="{{ message.$id }}" x-lvl-draggable x-lvl-drop-target="true" x-on-drop="dropCardOnCard(dragEl, dropEl)" draggable="{{ !isEditing }}">
 
               <div class="front" ng-class="{'filter': isCensored(message, boardObject.text_editing_is_private)}">
