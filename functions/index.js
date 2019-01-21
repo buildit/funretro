@@ -55,7 +55,7 @@ exports.newboard = functions.https.onRequest(function(req, res) {
         }
       ],
       user_id: userId,
-      max_votes: 6,
+      max_votes: 3,
       text_editing_is_private : true
     }, function(error) {
       if (error) {

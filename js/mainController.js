@@ -81,7 +81,7 @@ angular
           }
 
           $scope.board = board.val();
-          $scope.maxVotes = board.val().max_votes ? board.val().max_votes : 6;
+          $scope.maxVotes = board.val().max_votes ? board.val().max_votes : 3;
           $scope.boardId = $rootScope.boardId = board.val().boardId;
           $scope.boardContext = $rootScope.boardContext = board.val().boardContext;
           $scope.loading = false;
@@ -162,7 +162,7 @@ angular
               date_created: new Date().toString(),
               columns: $scope.messageTypes,
               user_id: userData.uid,
-              max_votes: $scope.newBoard.max_votes || 6,
+              max_votes: $scope.newBoard.max_votes || 3,
               text_editing_is_private: $scope.newBoard.text_editing_is_private
             },
             function(error) {
