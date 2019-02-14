@@ -13,7 +13,9 @@ angular
     '$rootScope',
     'FirebaseService',
     'ModalService',
+    'TimerService',
     'FEATURES',
+    'firebase',
     function(
       $scope,
       $filter,
@@ -23,7 +25,9 @@ angular
       $rootScope,
       firebaseService,
       modalService,
-      FEATURES
+      timerService,
+      FEATURES,
+      firebase
     ) {
       $scope.loading = true;
       $scope.messageTypes = utils.messageTypes;
@@ -49,6 +53,11 @@ angular
         mapping: []
       };
       $scope.activeMessage = null;
+      $scope.timerDuration = 8;
+
+      timerService.setTimeoutCallback(function() {
+        modalService.openTimesUp($scope);
+      });
 
       $scope.droppedEvent = function(dragEl, dropEl) {
         var drag = $('#' + dragEl);
@@ -100,6 +109,7 @@ angular
 
         $scope.messages.$watch(function() {
           $scope.setActiveMessage();
+          timerService.handleTimer($scope.activeMessage, $scope.messages);
         });
       }
 
@@ -279,7 +289,8 @@ angular
             },
             date: firebaseService.getServerTimestamp(),
             date_created: firebaseService.getServerTimestamp(),
-            votes: 0
+            votes: 0,
+            timers: [],
           })
           .then(addMessageCallback);
       };
@@ -333,8 +344,9 @@ angular
             $scope.board.activeMessageId !== $scope.activeMessage.$id))
         {
           $scope.messages.find(function(message) {
-            if(message.$id === $scope.board.activeMessageId)
+            if(message.$id === $scope.board.activeMessageId) {
               $scope.activeMessage = message;
+            }
           });
         }
       };
@@ -343,6 +355,20 @@ angular
         $scope.boardRef.update({
           activeMessageId: message.$id,
         });
+      };
+
+      $scope.startTimer = function() {
+        if(!$scope.activeMessage.timers) $scope.activeMessage.timers = [];
+        $scope.activeMessage.timers.push({
+          active: false,
+          complete: false,
+          downvotes: 0,
+          duration: $scope.timerDuration,
+          start: firebase.database.ServerValue.TIMESTAMP,
+          upvotes: 0,
+          used: 0,
+        });
+        $scope.messages.$save($scope.activeMessage);
       };
 
       /* globals Clipboard */

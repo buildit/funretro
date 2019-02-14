@@ -13,7 +13,10 @@
     <h1>{{ activeMessage.text }}</h1>
     <div>TIMER</div>
     <p>Votes: {{ activeMessage.votes }}</p>
-    <button class="" ng-click="">Start/STOP</button>
+
+    <timer-input timer="timerDuration"></timer-input>
+
+    <button class="" ng-click="startTimer()">Start/STOP</button>
     <button class="" ng-click="">Completed</button>
     <button class="" ng-click="">Breakout</button>
   </div>
